@@ -9,21 +9,20 @@ import 'package:lion_project_09/city_view.dart';
 import 'package:lion_project_09/constants.dart';
 import 'package:lion_project_09/weather_model.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeScreenState extends State<HomeScreen> {
   /// Null safety,
   /// non nullable
   /// String temperature = '';
   /// String description = '';
   /// nullable
-  String? temperature;
-  String? description;
+  WeatherModel? weatherModel;
 
   @override
   void initState() {
@@ -48,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         constraints: const BoxConstraints.expand(),
         child: SafeArea(
-          child: temperature == null && description == null
+          child: weatherModel == null
               ? const Center(
                   child: CircularProgressIndicator(
                   color: Colors.white,
@@ -95,7 +94,7 @@ class _HomeViewState extends State<HomeView> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            '${temperature!}°',
+                            '${weatherModel!.main.temp.toStringAsFixed(2)}°',
                             style: kTempTextStyle,
                           ),
                           Text(
@@ -108,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                     Padding(
                       padding: EdgeInsets.only(right: 15.0),
                       child: Text(
-                        description!,
+                        weatherModel!.weather.first.description,
                         textAlign: TextAlign.right,
                         style: kMessageTextStyle,
                       ),
@@ -124,8 +123,8 @@ class _HomeViewState extends State<HomeView> {
     http.Client client = http.Client();
 
     /// https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-    ///
-    String url = '$apiUrl?q=$cityName&appid=$apiKey';
+
+    String url = '$apiUrl?q=$cityName&appid=$apiKey&units=metric';
 
     Uri uri = Uri.parse(url);
 
@@ -136,9 +135,9 @@ class _HomeViewState extends State<HomeView> {
 
       Map<String, dynamic> result = jsonDecode(responseBody);
 
-      temperature = (kelvinToCelsius(result['main']['temp'] as num)).toStringAsFixed(2);
+      weatherModel = WeatherModel.fromMap(result);
 
-      description = result['weather'][0]['description'];
+      log('weatherModel..main.temp ${weatherModel?.main.temp}');
 
       setState(() {});
 
@@ -152,7 +151,7 @@ class _HomeViewState extends State<HomeView> {
     http.Client client = http.Client();
 
     /// https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-    String url = '$apiUrl?lat=${position.latitude}&lon=${position.longitude}&appid=$apiKey';
+    String url = '$apiUrl?lat=${position.latitude}&lon=${position.longitude}&appid=$apiKey&units=metric';
 
     Uri uri = Uri.parse(url);
 
@@ -163,9 +162,9 @@ class _HomeViewState extends State<HomeView> {
     if (response.statusCode == 200) {
       Map<String, dynamic> result = jsonDecode(response.body);
 
-      temperature = (kelvinToCelsius(result['main']['temp'] as num)).toStringAsFixed(2);
+      weatherModel = WeatherModel.fromMap(result);
 
-      description = result['weather'][0]['description'];
+      log('weatherModel..main.temp ${weatherModel?.main.temp}');
 
       setState(() {});
     }
@@ -214,10 +213,10 @@ class _HomeViewState extends State<HomeView> {
 
     return result;
   }
-}
 
-// double kelvinToCelsius(double kelvin) {
-//   return (kelvin - 273.15);
-// }
-// kiska jolu
-double kelvinToCelsius(num kelvin) => kelvin - 273.15;
+  // double kelvinToCelsius(double kelvin) {
+  //   return (kelvin - 273.15);
+  // }
+  // kiska jolu
+  double kelvinToCelsius(num kelvin) => kelvin - 273.15;
+}

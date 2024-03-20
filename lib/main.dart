@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lion_project_09/home_screen.dart';
 import 'package:lion_project_09/home_view.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeView(),
+      home: const HomeScreen(),
     );
   }
 }

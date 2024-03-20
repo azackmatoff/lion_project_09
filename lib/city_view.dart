@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lion_project_09/constants.dart';
 
@@ -7,6 +9,8 @@ class CityView extends StatefulWidget {
 }
 
 class _CityViewState extends State<CityView> {
+  String? text;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,22 +29,51 @@ class _CityViewState extends State<CityView> {
                 alignment: Alignment.topLeft,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, text);
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios,
                     size: 50.0,
                     color: Colors.white,
                   ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(20.0),
-                child: null,
+              const SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: TextFormField(
+                  onChanged: (String value) {
+                    log('onChanged: $value');
+
+                    setState(() {
+                      text = value;
+                    });
+
+                    log('onChanged.text: $text');
+                  },
+                  style: kTextFormFieldTextStyle,
+                  decoration: InputDecoration(
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                    ),
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter a search term',
+                    hintStyle: kTextFormFieldTextStyle,
+                  ),
+                ),
               ),
+              const SizedBox(height: 32),
               TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   'Get Weather',
                   style: kButtonTextStyle,
                 ),

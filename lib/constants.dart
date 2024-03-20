@@ -15,10 +15,16 @@ const kMessageTextStyle = TextStyle(
 const kButtonTextStyle = TextStyle(
   fontSize: 30.0,
   fontFamily: 'Spartan MB',
+  color: Colors.white,
 );
 
 const kConditionTextStyle = TextStyle(
   fontSize: 100.0,
+);
+
+const kTextFormFieldTextStyle = TextStyle(
+  fontSize: 16,
+  color: Colors.white,
 );
 
 const String apiKey = '51c874e49dc37ecae309a5aad34f104f';
