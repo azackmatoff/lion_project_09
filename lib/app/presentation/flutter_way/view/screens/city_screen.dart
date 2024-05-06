@@ -1,27 +1,27 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:lion_project_09/constants.dart';
 
-class CityView extends StatefulWidget {
+import 'package:lion_project_09/app/presentation/flutter_way/business_logic/business_logic.dart';
+import 'package:lion_project_09/common/contants/text_styles/app_text_styles.dart';
+
+class CityScreen extends StatefulWidget {
+  const CityScreen({super.key});
+
   @override
-  _CityViewState createState() => _CityViewState();
+  _CityScreenState createState() => _CityScreenState();
 }
 
-class _CityViewState extends State<CityView> {
-  String? text;
-
+class _CityScreenState extends State<CityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/city_background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
             children: <Widget>[
@@ -29,7 +29,7 @@ class _CityViewState extends State<CityView> {
                 alignment: Alignment.topLeft,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pop(context, text);
+                    Navigator.pop(context, true);
                   },
                   child: const Icon(
                     Icons.arrow_back_ios,
@@ -43,15 +43,11 @@ class _CityViewState extends State<CityView> {
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: TextFormField(
                   onChanged: (String value) {
-                    log('onChanged: $value');
+                    businessLogic.typeCity(value);
 
-                    setState(() {
-                      text = value;
-                    });
-
-                    log('onChanged.text: $text');
+                    setState(() {});
                   },
-                  style: kTextFormFieldTextStyle,
+                  style: AppTextStyles.kTextFormFieldTextStyle,
                   decoration: InputDecoration(
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
@@ -64,18 +60,20 @@ class _CityViewState extends State<CityView> {
                         color: Colors.white.withOpacity(0.6),
                       ),
                     ),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     hintText: 'Enter a search term',
-                    hintStyle: kTextFormFieldTextStyle,
+                    hintStyle: AppTextStyles.kTextFormFieldTextStyle,
                   ),
                 ),
               ),
               const SizedBox(height: 32),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
                 child: const Text(
                   'Get Weather',
-                  style: kButtonTextStyle,
+                  style: AppTextStyles.kButtonTextStyle,
                 ),
               ),
             ],
